@@ -14,10 +14,10 @@ from rest_framework import status
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from uuid import UUID
-from .models import Product, Collections, OrderItem, Review,Cart,CartItem,Customer
-from .serializer import product_serializer, collections_serializer, review_serializer, CartSerializer, CartItemSerializer, AddCartItemSerializer,CustomerSerializer
+from .models import Product, Collections, OrderItem, Review,Cart,CartItem,Customer,Order
+from .serializer import product_serializer, collections_serializer, review_serializer, CartSerializer, CartItemSerializer, AddCartItemSerializer,CustomerSerializer,OrderSerializer
 from .filters import ProductFilter
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly,FullDjangoModelFunction
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = product_serializer
@@ -98,4 +98,6 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
-    
+class OrderViewSet(ModelViewSet):
+    queryset=Order.objects.all()    
+    serializer_class=OrderSerializer
